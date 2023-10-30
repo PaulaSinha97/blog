@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 // import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -29,16 +29,43 @@ export class BlogService {
     return allBlogs;
   }
 
-  async findOne(id: string) {
-    const doc = await this.blogModel.findById(id);
-    return doc;
+  async findOneBlog(id: string) {
+    let blog;
+    // try catch works in service
+    try {
+      blog = await this.blogModel.findById(id);
+      // this doc has all the mongoose methods
+    } catch (err) {
+      console.log('error dfdfdsfdsfsdfsdfdsfdf', err);
+      throw new NotFoundException('Blog not found');
+    }
+    if (!blog) {
+      throw new NotFoundException('Blog not found');
+    }
+    return blog;
   }
 
-  update(id: number, updateBlogDto: UpdateBlogDto) {
-    return `This action updates a #${id} blog`;
+  async update(id: string, updateBlogDto: { title: string }) {
+    try {
+      const updatedBlog = await this.findOneBlog(id);
+      console.log('updatedBlog', updatedBlog);
+      updatedBlog.title = updateBlogDto.title;
+      console.log(
+        'updateBlogDtoupdatedBlog',
+        updatedBlog,
+        'param',
+        updateBlogDto,
+      );
+      const newResp = await updatedBlog.save();
+      return newResp;
+    } catch (err) {
+      console.log('err', err);
+      throw err;
+    }
   }
 
-  remove(id: number) {
+  async remove(id: string) {
+    await this.blogModel.deleteOne({ _id: id });
     return `This action removes a #${id} blog`;
   }
 }

@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  NotFoundException,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
@@ -29,27 +28,17 @@ export class BlogController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    let blog;
-    try {
-      console.log('innnnnnnnnnnnnn');
-      blog = this.blogService.findOne(id);
-    } catch (err) {
-      console.log('error dfdfdsfdsfsdfsdfdsfdf', err);
-      throw new NotFoundException('Blog not found');
-    }
-    if (!blog) {
-      throw new NotFoundException('Blog not found');
-    }
-    return blog;
+    return this.blogService.findOneBlog(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-    return this.blogService.update(+id, updateBlogDto);
+  update(@Param('id') id: string, @Body() updateBlogDto: { title: string }) {
+    console.log('controller param', id, updateBlogDto);
+    return this.blogService.update(id, updateBlogDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.blogService.remove(+id);
+    return this.blogService.remove(id);
   }
 }
