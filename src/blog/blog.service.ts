@@ -8,25 +8,30 @@ import { BlogInterface } from './blog.model';
 export class BlogService {
   // Same name defined in blog modules
   constructor(
+    // Blogg is collection name
     @InjectModel('Blogg') private readonly blogModel: Model<BlogInterface>,
   ) {}
 
-  async create(title, tags) {
+  async create(title: string, tags: string) {
     const newBlog = new this.blogModel({
       title,
-      tags,
     });
+
+    newBlog.tags.push(tags);
     const res = await newBlog.save();
     console.log('res', res);
-    return 'blog created';
+    return { id: res.id };
   }
 
-  findAll() {
-    return `This action returns all blog`;
+  async findAll() {
+    const allBlogs = await this.blogModel.find().exec();
+    console.log('allblogs', allBlogs);
+    return allBlogs;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} blog`;
+  async findOne(id: string) {
+    const doc = await this.blogModel.findById(id);
+    return doc;
   }
 
   update(id: number, updateBlogDto: UpdateBlogDto) {

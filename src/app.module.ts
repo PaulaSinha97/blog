@@ -6,6 +6,7 @@ import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
+    // here at end blog is table name added by us
     MongooseModule.forRoot(
       'mongodb+srv://Paula_Sinha:ClusterBlog1997@cluster0.loisgai.mongodb.net/blog',
     ),
