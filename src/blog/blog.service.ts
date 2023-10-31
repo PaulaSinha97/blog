@@ -45,7 +45,7 @@ export class BlogService {
     return blog;
   }
 
-  async update(id: string, updateBlogDto: { title: string }) {
+  async update(id: string, updateBlogDto: UpdateBlogDto) {
     try {
       const updatedBlog = await this.findOneBlog(id);
       console.log('updatedBlog', updatedBlog);

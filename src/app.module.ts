@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogModule } from './blog/blog.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { BlogModule } from './blog/blog.module';
       'mongodb+srv://Paula_Sinha:ClusterBlog1997@cluster0.loisgai.mongodb.net/blog',
     ),
     BlogModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
