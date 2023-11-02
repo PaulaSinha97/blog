@@ -1,10 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UserRegisterInterface } from './user.model';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
+  constructor(
+    @InjectModel('Users')
+    private readonly userModel: Model<UserRegisterInterface>,
+  ) {}
+
+  async registerUser(createUserDto: CreateUserDto) {
+    const userData = await this.userModel.create({
+      name: createUserDto.name,
+      email: createUserDto.email,
+      password: createUserDto.email,
+    });
+    userData.save();
     return 'This action adds a new user';
   }
 
