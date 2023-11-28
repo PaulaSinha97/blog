@@ -9,12 +9,14 @@ export class UsersController {
 
   @Post('/register')
   create(@Body() createUserDto: CreateUserDto) {
+    console.log(">>>",createUserDto);
     return this.usersService.registerUser(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Post('/login')
+  findAll(@Body() createUserDto: CreateUserDto) {
+    console.log("createUserDto controller",createUserDto)
+    return this.usersService.findByNameAndPassword(createUserDto.name,createUserDto.password);
   }
 
   @Get(':id')
