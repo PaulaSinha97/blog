@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards ,Request} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LocalAuthGuard } from 'src/auth/local-auth-guard';
 
 @Controller('auth')
 export class UsersController {
@@ -13,10 +14,11 @@ export class UsersController {
     return this.usersService.registerUser(createUserDto);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('/login')
-  findAll(@Body() createUserDto: CreateUserDto) {
-    console.log("createUserDto controller",createUserDto)
-    return this.usersService.findByNameAndPassword(createUserDto.name,createUserDto.password);
+  findAll(@Request() req) {
+    console.log("createUserDto controller",req)
+    return req.user;
   }
 
   @Get(':id')

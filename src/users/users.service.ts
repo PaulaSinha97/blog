@@ -9,13 +9,13 @@ import { comparePasswords, hashPasswordWithBcrypt } from 'src/utils/bcrypt';
 @Injectable()
 export class UsersService {
   constructor(
-    // Users is table/collection name, same defined in users module
+    // Users is collection name, same defined in users module
     @InjectModel('Users')
     private readonly userModel: Model<UserRegisterInterface>,
   ) {}
 
   async registerUser(createUserDto: CreateUserDto) {
-    console.group('in service', createUserDto);
+    console.log('in service', createUserDto);
     const userData = await this.userModel.create({
       name: createUserDto.name,
       email: createUserDto.email,
@@ -40,7 +40,7 @@ export class UsersService {
       );
       // matched is boolean value
       if (matched) {
-        return 'Succesful login';
+        return findUserByName;
       } else {
         return 'wrong password';
       }
