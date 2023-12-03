@@ -25,6 +25,20 @@ export class UsersService {
     return 'This action adds a new user';
   }
 
+  async loginUserByGoogle(userDetails: CreateUserDto) {
+    const user = await this.userModel.find({ email: userDetails.email });
+    console.log('user in user service', user);
+    if (user) {
+      return user;
+    }
+    // if new user then add them to db
+    return this.registerUser({
+      name: userDetails.name,
+      email: userDetails.email,
+      password: null,
+    });
+  }
+
   async findByNameAndPassword(name: string, password: string) {
     const findUserByName = await this.userModel.find({ name });
     if (findUserByName) {

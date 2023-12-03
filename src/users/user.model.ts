@@ -4,7 +4,7 @@ export const UserRegisterSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  role: [String]
+  role: [String],
 });
 
 export interface UserRegisterInterface {
@@ -12,6 +12,5 @@ export interface UserRegisterInterface {
   name: string;
   email: string;
   password: string;
-  role:string[];
+  role: string[];
 }
-
