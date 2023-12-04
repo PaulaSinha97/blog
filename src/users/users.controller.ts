@@ -3,10 +3,11 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LocalAuthGuard } from 'src/auth/local-auth-guard';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('auth')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly authService: AuthService) {}
 
   @Post('/register')
   create(@Body() createUserDto: CreateUserDto) {
@@ -17,8 +18,13 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   findAll(@Request() req) {
-    console.log("createUserDto controller",req)
-    return req.user;
+   
+    return this.authService.login(req.user);
+  }
+
+  @Get('/protected')
+  protectedRoute(){
+    return "kljvfkljvk"
   }
 
   @Get(':id')
