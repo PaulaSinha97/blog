@@ -19,6 +19,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy) {
   async validate(accessToke, refreshToken, profile: Profile) {
     // does not send google account password
     console.log('step 1 in google strategy', accessToke, refreshToken, profile);
+    // oauth does not give password back
     const userValidationByStrategy =
       await this.authService.validateUserByGoogle({
         name: profile.displayName,

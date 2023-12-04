@@ -5,7 +5,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Injectable()
 export class GoogleAuthGuard extends AuthGuard('google') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // console.log('why not printing.....');
+    console.log('why not printing.....');
     const activate = (await super.canActivate(context)) as boolean;
     console.log('innnnnnnnnnnnnnnnn 22222222222222', activate);
     const request = context.switchToHttp().getRequest();
