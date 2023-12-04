@@ -19,10 +19,25 @@ export class UsersService {
     const userData = await this.userModel.create({
       name: createUserDto.name,
       email: createUserDto.email,
-      password: await hashPasswordWithBcrypt(createUserDto.password),
+      password: createUserDto.password? await hashPasswordWithBcrypt(createUserDto.password): null,
     });
     userData.save();
     return 'This action adds a new user';
+  }
+
+  async loginUserByGoogle(userDetails: CreateUserDto) {
+    console.log('step 3 in user service', userDetails);
+    const user = await this.userModel.find({ email: userDetails.email });
+    console.log('user in user service', user);
+    if (user.length) {
+      return user;
+    }
+    // if new user then add them to db
+    return this.registerUser({
+      name: userDetails.name,
+      email: userDetails.email,
+      password: null,
+    });
   }
 
   async findByNameAndPassword(name: string, password: string) {

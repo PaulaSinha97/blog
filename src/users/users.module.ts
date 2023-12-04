@@ -10,6 +10,6 @@ import { AuthModule } from 'src/auth/auth.module';
   imports:[MongooseModule.forFeature([{name:"Users", schema:UserRegisterSchema}]), forwardRef(() => AuthModule)],
   controllers: [UsersController],
   providers: [UsersService],
-  exports:[UsersService]
+  exports: [UsersService],
 })
 export class UsersModule {}
